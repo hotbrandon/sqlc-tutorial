@@ -12,9 +12,9 @@ import (
 
 const createAuthor = `-- name: CreateAuthor :execresult
 INSERT INTO authors (
-  name, bio
+	name, bio
 ) VALUES (
-  ?, ?
+	$1, $2
 )
 `
 
@@ -29,7 +29,7 @@ func (q *Queries) CreateAuthor(ctx context.Context, arg CreateAuthorParams) (sql
 
 const deleteAuthor = `-- name: DeleteAuthor :exec
 DELETE FROM authors
-WHERE id = ?
+WHERE id = $1
 `
 
 func (q *Queries) DeleteAuthor(ctx context.Context, id int64) error {
@@ -39,7 +39,7 @@ func (q *Queries) DeleteAuthor(ctx context.Context, id int64) error {
 
 const getAuthor = `-- name: GetAuthor :one
 SELECT id, name, bio FROM authors
-WHERE id = ? LIMIT 1
+WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetAuthor(ctx context.Context, id int64) (Author, error) {
